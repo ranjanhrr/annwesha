@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Will you be my Valentine?</title>
+    <title>for you</title>
 
-    <!-- Google Fonts for attractive design -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts for romantic readable typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Confetti library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -33,7 +37,7 @@
             display: grid;
             place-items: center;
             background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             overflow: hidden;
             padding: 16px;
         }
@@ -63,15 +67,39 @@
 
         .art {
             width: min(260px, 80vw);
-            margin: 0 auto 10px;
+            margin: 0;
             display: block;
             filter: drop-shadow(0 12px 16px rgba(76, 29, 149, .14)); /* Enhanced shadow */
+        }
+
+        .art-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .art-overlay {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 10px;
+            padding: 0 8px;
+            max-width: calc(100% - 16px);
+            background: transparent;
+            color: rgba(255, 255, 255, .96);
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: .2px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, .55);
+            box-shadow: none;
+            pointer-events: none;
+            text-align: center;
         }
 
         h1 {
             font-size: clamp(28px, 4.2vw, 48px);
             margin: 12px 0 18px;
-            font-family: 'Great Vibes', cursive; /* Attractive cursive font */
+            font-family: 'Playfair Display', 'Manrope', serif;
             color: var(--ink);
             text-shadow: 0 2px 4px rgba(0, 0, 0, .1);
         }
@@ -98,7 +126,7 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             transition: transform .15s ease, background .15s ease;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         #yesBtn {
@@ -133,7 +161,7 @@
         .result h2 {
             font-size: clamp(32px, 4.8vw, 50px);
             margin: 10px 0;
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Playfair Display', 'Manrope', serif;
         }
 
         .fireworks {
@@ -260,7 +288,7 @@
             letter-spacing: .3px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, .35);
             font-size: clamp(15px, 3vw, 20px);
-            font-family: 'Great Vibes', cursive; /* Attractive font */
+            font-family: 'Playfair Display', 'Manrope', serif;
         }
 
         .story__controls {
@@ -381,7 +409,7 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             transition: transform .15s ease, background .15s ease, opacity .15s ease;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .action-btn:hover {
@@ -402,12 +430,236 @@
             animation: pop .35s ease;
         }
 
+        /* ---------- REASONS STAGE (CLICK-TO-REVEAL CARDS) ---------- */
+        .reasons {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: auto;
+            opacity: 0;
+            transform: translateY(8px) scale(.99);
+            transition: opacity .45s ease, transform .45s ease;
+            background: radial-gradient(circle at top, rgba(255, 238, 246, .92), rgba(255, 214, 231, .92));
+            backdrop-filter: blur(8px);
+        }
+
+        .reasons.is-active {
+            opacity: 1;
+            transform: none;
+        }
+
+        .reasons.is-leaving {
+            opacity: 0;
+            transform: translateY(10px) scale(.99);
+        }
+
+        .reasons__hud {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(720px, calc(100% - 32px));
+            padding: 12px 14px 11px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .72);
+            border: 1px solid rgba(17, 24, 39, .10);
+            box-shadow: 0 14px 44px rgba(0, 0, 0, .12);
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .reasons__title {
+            font-weight: 950;
+            color: var(--ink);
+            letter-spacing: .2px;
+            font-size: clamp(18px, 3.8vw, 24px);
+            font-family: 'Playfair Display', 'Manrope', serif;
+        }
+
+        .reasons__sub {
+            margin-top: 2px;
+            color: var(--muted);
+            font-weight: 750;
+            font-size: 13px;
+        }
+
+        .reasons__progress {
+            margin-top: 6px;
+            font-size: 12px;
+            color: rgba(17, 24, 39, .58);
+        }
+
+        .reasons__field {
+            position: absolute;
+            inset: 0;
+            pointer-events: auto;
+        }
+
+        .reasons__cta {
+            position: fixed;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            z-index: 80;
+            pointer-events: none;
+        }
+
+        .reasons__cta .action-btn {
+            pointer-events: auto;
+            padding-inline: 20px;
+        }
+
+        .reason-card {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(var(--r, 0deg));
+            width: min(170px, 44vw);
+            height: 96px;
+            border: none;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            perspective: 900px;
+        }
+
+        .reason-card:focus-visible {
+            outline: 3px solid rgba(255, 59, 122, .45);
+            outline-offset: 4px;
+            border-radius: 18px;
+        }
+
+        .reason-card__inner {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform .55s cubic-bezier(.2, .9, .2, 1);
+            will-change: transform;
+        }
+
+        .reason-card.is-revealed .reason-card__inner {
+            transform: rotateY(180deg);
+        }
+
+        .reason-card__face {
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            box-shadow: 0 14px 38px rgba(0, 0, 0, .14);
+            backface-visibility: hidden;
+            display: grid;
+            place-items: center;
+            padding: 12px 12px;
+        }
+
+        .reason-card__front {
+            background: linear-gradient(135deg, rgba(255, 59, 122, .95), rgba(255, 140, 177, .92));
+            color: #fff;
+            font-weight: 950;
+            letter-spacing: .2px;
+            text-align: center;
+        }
+
+        .reason-card__front small {
+            display: block;
+            opacity: .92;
+            font-weight: 800;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .reason-card__back {
+            transform: rotateY(180deg);
+            background: rgba(255, 255, 255, .82);
+            border: 1px solid rgba(17, 24, 39, .10);
+            color: var(--ink);
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.22;
+            padding: 12px 12px;
+        }
+
+        .reason-card.is-revealed {
+            cursor: default;
+        }
+
+        @media (max-width: 420px) {
+            .reason-card {
+                height: 88px;
+            }
+        }
+
+        /* ---------- AFTER-YES EXTRAS ---------- */
+        .result__actions {
+            margin-top: 12px;
+            display: grid;
+            place-items: center;
+            gap: 10px;
+        }
+
+        .gift-card {
+            width: min(560px, 100%);
+            margin: 10px auto 0;
+            padding: 16px 16px 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .78);
+            border: 1px solid rgba(17, 24, 39, .10);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, .14);
+            text-align: left;
+            animation: pop .35s ease;
+        }
+
+        .gift-card h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .gift-card ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .gift-card li {
+            margin: 6px 0;
+            font-weight: 800;
+            color: rgba(17, 24, 39, .86);
+        }
+
+        .made-with-love {
+            position: fixed;
+            left: 50%;
+            bottom: 12px;
+            transform: translateX(-50%);
+            z-index: 4;
+            font-size: 12px;
+            font-weight: 800;
+            color: rgba(17, 24, 39, .62);
+            background: rgba(255, 255, 255, .55);
+            border: 1px solid rgba(17, 24, 39, .10);
+            padding: 8px 12px;
+            border-radius: 999px;
+            backdrop-filter: blur(8px);
+        }
+
         @media (prefers-reduced-motion: reduce) {
             #heartLayer {
                 display: none !important;
             }
 
             .story {
+                transition: none;
+            }
+
+            .reasons {
+                transition: none;
+            }
+
+            .reason-card__inner {
                 transition: none;
             }
         }
@@ -437,9 +689,8 @@
             <img id="storyImg" class="story__img" src="images/2.jpeg" alt="A man sleeping" />
 
             <div class="story__caption">
-                <div class="story__line" id="storyLine1">heard its valentines day in a few days.... (im so nanchalantly
-                    sleeping)</div>
-                <div class="story__line" id="storyLine2">activate valentines day mode (remove my nonchalatness basically)
+                <div class="story__line" id="storyLine1">heard its valentines day in a few days.... (im so nonchalantly sleeping)</div>
+                <div class="story__line" id="storyLine2">activate valentines day mode (remove my nonchalantness basically)
                 </div>
             </div>
         </div>
@@ -453,16 +704,30 @@
             </div>
 
             <button class="action-btn" id="activateBtn" type="button">Activate</button>
-            <button class="action-btn" id="finalBtn" type="button" style="display: none;">and for the final question (click here)</button>
         </div>
     </main>
+
+    <!-- REASONS STAGE (REVEAL ALL CARDS TO CONTINUE) -->
+    <section class="reasons" id="reasonsStage" hidden>
+        <div class="reasons__hud" aria-live="polite">
+            <div class="reasons__title" id="reasonsTitle">things i love about you (not limited to these cards btw)</div>
+            <div class="reasons__sub" id="reasonsSub">tap every card to reveal it 💗</div>
+            <div class="reasons__progress"><span id="reasonsRevealed">0</span>/<span id="reasonsTotal">20</span>
+                revealed</div>
+        </div>
+        <div class="reasons__field" id="reasonsField" aria-label="Reasons I love you"></div>
+        <div class="reasons__cta" id="reasonsCta"></div>
+    </section>
 
     <!-- EXISTING PROPOSAL UI (REVEALED AFTER INTRO) -->
     <main class="card proposal" id="proposalCard" hidden>
         <!-- ANIMAL WITH HEART -->
-        <img class="art" id="artImg" src="images/3.jpeg" alt="Cute animal">
+        <div class="art-wrap">
+            <img class="art" id="artImg" src="images/3.jpeg" alt="Cute animal">
+            <div class="art-overlay" id="artOverlay">i am watching you....</div>
+        </div>
 
-        <h1>nirali will you be my valentine?</h1>
+        <h2>annwesha will you be my valentine?</h2>
 
         <section class="button-zone" id="zone">
             <button id="yesBtn">Yes</button>
@@ -470,13 +735,31 @@
         </section>
 
         <!-- HINT -->
-        <div class="hint" id="hint">“No” seems a bit shy 😈</div>
+        <div class="hint" id="hint">“No” seems a bit shy (pls choose yes)</div>
 
         <section class="result" id="result">
-            <h2>YAY! 🎉</h2>
-            <img class="fireworks" src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" alt="Fireworks" />
+            <h3>YAY! 🎉</h3>
+
+            <div class="result__actions">
+                <button class="action-btn" id="giftBtn" type="button" hidden>click here to find out what package you've chosen</button>
+            </div>
+
+            <img class="fireworks" id="fireworksGif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXM1eThka2p3M2kyN2d1djVsejFzaThrZ202eXk4cXVuZTJhNndrNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/j0vs5H7Kcz3Pm9LRDa/giphy.gif"
+                alt="Fireworks" />
+
+            <div class="gift-card" id="giftCard" hidden>
+                <h3>your valentine bundle includes:</h3>
+                <ul>
+                    <li>1 X cute nerdy loving boyfriend</li>
+                    <li>1 X meal of your choice at any place (pls be affordable)</li>
+                    <li>unlimited 6-7 jokes</li>
+                    <li>unlimited cuddles</li>
+                </ul>
+            </div>
         </section>
     </main>
+
+    <footer class="made-with-love" id="madeWithLove" hidden>made with love from your gaandu boyfriend ❤️😉</footer>
 
     <script>
         /* ---------- LOVE ALARM (INTRO STORY) ---------- */
@@ -491,10 +774,46 @@
         const batteryPct = document.getElementById("batteryPct");
         const batteryBar = batteryWrap ? batteryWrap.querySelector(".battery") : null;
         const activateBtn = document.getElementById("activateBtn");
-        const finalBtn = document.getElementById("finalBtn");
+
+        /* ---------- REASONS STAGE ---------- */
+        const reasonsStage = document.getElementById("reasonsStage");
+        const reasonsField = document.getElementById("reasonsField");
+        const reasonsTitle = document.getElementById("reasonsTitle");
+        const reasonsSub = document.getElementById("reasonsSub");
+        const reasonsRevealed = document.getElementById("reasonsRevealed");
+        const reasonsTotal = document.getElementById("reasonsTotal");
+        const reasonsCta = document.getElementById("reasonsCta");
 
         let heartTimer = null;
         let introStarted = false;
+        let moreReady = false;
+        let reasonsBuilt = false;
+        let reasonsDone = false;
+        let revealedCount = 0;
+
+        // Placeholder reasons (edit these later)
+        const reasons = [
+            "you’re very honest (and i love that)",
+            "you’re patient with my nonsense (includes 67 jokes)",
+            "you listen like you actually mean it",
+            "you make silence feel comfortable, never awkward",
+            "you hype me up when i doubt myself (i really love this about you)",
+            "you roast me but still choose me",
+            "you’re the cutest even when you’re annoyed (sorry i ragebait you too much)",
+            "your smile fixes my mood instantly",
+            "you notice the small things I don’t say out loud",
+            "you understand me without needing explanations",
+            "you’re kind in a way that feels rare",
+            "you smile with those beautiful eyes of yours and I fold instantly",
+            "your voice feels like a safe place",
+            "when i am with you, you make the normal moments feel special",
+            "your hugs are so warm, it makes all my problems vanish",
+            "you’re my favorite person to do nothing with",
+            "you make the future feel exciting instead of scary",
+            "you’re beautiful in a way which i cant put into words",
+            "you make me want to be a better person as a whole",
+            "you make my heart feel full"
+        ];
 
         function clampPercent(n) {
             return Math.max(0, Math.min(100, n));
@@ -555,11 +874,184 @@
             return 1 - Math.pow(1 - t, 3);
         }
 
+        function clampNumber(n, min, max) {
+            return Math.max(min, Math.min(max, n));
+        }
+
+        function updateReasonsProgress() {
+            if (reasonsTotal) reasonsTotal.textContent = String(reasons.length);
+            if (reasonsRevealed) reasonsRevealed.textContent = String(revealedCount);
+        }
+
+        function layoutReasonCards() {
+            if (!reasonsField) return;
+
+            const cards = Array.from(reasonsField.querySelectorAll(".reason-card"));
+            if (!cards.length) return;
+
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+
+            const cols = w < 480 ? 3 : (w < 900 ? 4 : 5);
+            const rows = Math.ceil(cards.length / cols);
+
+            const topPad = 120;
+            const bottomPad = 96;
+            const sidePad = 14;
+
+            const availW = Math.max(1, w - sidePad * 2);
+            const availH = Math.max(1, h - topPad - bottomPad);
+
+            const cellW = availW / cols;
+            const cellH = availH / rows;
+
+            cards.forEach((card, i) => {
+                const col = i % cols;
+                const row = Math.floor(i / cols);
+
+                const jx = parseFloat(card.dataset.jx || "0") * 0.34;
+                const jy = parseFloat(card.dataset.jy || "0") * 0.34;
+                const rot = parseFloat(card.dataset.r || "0");
+
+                let x = sidePad + (col + 0.5 + jx) * cellW;
+                let y = topPad + (row + 0.5 + jy) * cellH;
+
+                // Approx half-size clamp so cards stay on-screen.
+                const safeX = w < 420 ? 76 : 88;
+                const safeY = 54;
+                x = clampNumber(x, sidePad + safeX, w - sidePad - safeX);
+                y = clampNumber(y, topPad + safeY, h - bottomPad - safeY);
+
+                card.style.left = x + "px";
+                card.style.top = y + "px";
+                card.style.setProperty("--r", rot.toFixed(2) + "deg");
+                card.style.zIndex = String(10 + row);
+            });
+        }
+
+        function buildReasonsOnce() {
+            if (reasonsBuilt) return;
+            reasonsBuilt = true;
+
+            if (!reasonsField) return;
+
+            reasonsField.replaceChildren();
+            if (reasonsCta) reasonsCta.replaceChildren();
+            revealedCount = 0;
+            reasonsDone = false;
+            updateReasonsProgress();
+
+            if (reasonsTitle) reasonsTitle.textContent = "things i love about you";
+            if (reasonsSub) reasonsSub.textContent = "tap every card to reveal it 💗";
+
+            reasons.forEach((reason) => {
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "reason-card";
+                card.setAttribute("aria-label", "Reveal a reason");
+                card.setAttribute("aria-pressed", "false");
+
+                // Store random layout offsets once so positions remain stable.
+                card.dataset.jx = String(Math.random() - 0.5);
+                card.dataset.jy = String(Math.random() - 0.5);
+                card.dataset.r = String((Math.random() * 2 - 1) * 12);
+
+                const inner = document.createElement("span");
+                inner.className = "reason-card__inner";
+
+                const front = document.createElement("span");
+                front.className = "reason-card__face reason-card__front";
+                front.innerHTML = "tap 💗<small>reveal</small>";
+
+                const back = document.createElement("span");
+                back.className = "reason-card__face reason-card__back";
+                back.textContent = reason;
+
+                inner.append(front, back);
+                card.append(inner);
+
+                card.addEventListener("click", () => {
+                    if (reasonsDone) return;
+                    if (card.classList.contains("is-revealed")) return;
+
+                    card.classList.add("is-revealed");
+                    card.setAttribute("aria-pressed", "true");
+
+                    revealedCount += 1;
+                    updateReasonsProgress();
+
+                    if (revealedCount >= reasons.length) {
+                        reasonsDone = true;
+
+                        if (reasonsTitle) reasonsTitle.textContent = "all revealed 💘";
+                        if (reasonsSub) reasonsSub.textContent = "click the button below for the final question ✨";
+                        showFinalQuestionButton();
+                    }
+                });
+
+                reasonsField.appendChild(card);
+            });
+        }
+
+        function showReasonsStage() {
+            if (!reasonsStage || !reasonsField) {
+                revealProposal();
+                return;
+            }
+
+            buildReasonsOnce();
+            reasonsStage.hidden = false;
+            reasonsStage.classList.remove("is-leaving");
+
+            requestAnimationFrame(() => {
+                reasonsStage.classList.add("is-active");
+                layoutReasonCards();
+            });
+        }
+
         function revealProposal() {
             if (!proposalCard) return;
             proposalCard.hidden = false;
             proposalCard.classList.add("card--enter");
             window.setTimeout(() => proposalCard.classList.remove("card--enter"), 400);
+        }
+
+        function handleFinalQuestion() {
+            if (!reasonsStage) {
+                revealProposal();
+                return;
+            }
+            reasonsStage.classList.add("is-leaving");
+            window.setTimeout(() => {
+                reasonsStage.hidden = true;
+                reasonsStage.classList.remove("is-leaving");
+                revealProposal();
+            }, 420);
+        }
+
+        function showFinalQuestionButton() {
+            if (!reasonsCta) {
+                // Fail open: if CTA wrapper is missing, proceed.
+                handleFinalQuestion();
+                return;
+            }
+
+            let btn = reasonsCta.querySelector("#finalQuestionBtn");
+            if (!btn) {
+                btn = document.createElement("button");
+                btn.className = "action-btn";
+                btn.id = "finalQuestionBtn";
+                btn.type = "button";
+                btn.textContent = "and... for the final question";
+                btn.addEventListener("click", () => {
+                    if (btn.disabled) return;
+                    btn.disabled = true;
+                    handleFinalQuestion();
+                });
+                reasonsCta.appendChild(btn);
+            }
+
+            btn.disabled = false;
         }
 
         function runLoveAlarmSequence() {
@@ -574,8 +1066,7 @@
                 !batteryFill ||
                 !batteryPct ||
                 !batteryBar ||
-                !activateBtn ||
-                !finalBtn
+                !activateBtn
             ) {
                 // Fail open: if intro can't run, show the proposal UI.
                 if (proposalCard) proposalCard.hidden = false;
@@ -588,6 +1079,23 @@
             setBattery(3);
 
             activateBtn.addEventListener("click", () => {
+                if (moreReady) {
+                    moreReady = false;
+                    activateBtn.disabled = true;
+
+                    loveAlarm.classList.add("is-leaving");
+                    heartLayer.classList.add("is-leaving");
+
+                    window.setTimeout(() => {
+                        loveAlarm.hidden = true;
+                        stopHearts();
+                        heartLayer.replaceChildren();
+                        heartLayer.hidden = true;
+                        showReasonsStage();
+                    }, 520);
+                    return;
+                }
+
                 if (introStarted) return;
                 introStarted = true;
 
@@ -621,8 +1129,9 @@
                     storyImg.alt = "A couple standing together";
                     storyLine1.textContent = "Love battery: 100%";
                     storyLine2.textContent = "Valentine’s Day mode activated 💘";
-                    activateBtn.style.display = "none";
-                    finalBtn.style.display = "inline-flex";
+                    moreReady = true;
+                    activateBtn.disabled = false;
+                    activateBtn.textContent = "click me for more";
 
                     // Hearts calm down, then stop.
                     startHearts("calm");
@@ -632,22 +1141,19 @@
                 requestAnimationFrame(tick);
             });
 
-            finalBtn.addEventListener("click", () => {
-                // Transition to proposal
-                loveAlarm.classList.add("is-leaving");
-                heartLayer.classList.add("is-leaving");
-
-                window.setTimeout(() => {
-                    loveAlarm.hidden = true;
-                    stopHearts();
-                    heartLayer.replaceChildren();
-                    heartLayer.hidden = true;
-                    revealProposal();
-                }, 520);
-            });
         }
 
         runLoveAlarmSequence();
+
+        // Keep the scattered cards nicely placed on rotate/resize.
+        window.addEventListener("resize", () => {
+            if (reasonsStage && !reasonsStage.hidden) layoutReasonCards();
+        });
+        window.addEventListener("orientationchange", () => {
+            window.setTimeout(() => {
+                if (reasonsStage && !reasonsStage.hidden) layoutReasonCards();
+            }, 150);
+        });
 
         const zone = document.getElementById("zone");
         const yesBtn = document.getElementById("yesBtn");
@@ -655,6 +1161,23 @@
         const result = document.getElementById("result");
         const hint = document.getElementById("hint");
         const artImg = document.getElementById("artImg");
+        const artOverlay = document.getElementById("artOverlay");
+        const giftBtn = document.getElementById("giftBtn");
+        const giftCard = document.getElementById("giftCard");
+        const fireworksGif = document.getElementById("fireworksGif");
+        const madeWithLove = document.getElementById("madeWithLove");
+
+        if (giftBtn) {
+            giftBtn.addEventListener("click", () => {
+                giftBtn.hidden = true;
+                if (fireworksGif) fireworksGif.hidden = true;
+                if (giftCard) {
+                    giftCard.hidden = false;
+                    giftCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+                if (madeWithLove) madeWithLove.hidden = false;
+            });
+        }
 
         /* ---------- CONFETTI ---------- */
         const confettiCanvas = document.getElementById("confettiCanvas");
@@ -675,7 +1198,7 @@
         if (window.confetti && typeof window.confetti.create === "function") {
             confettiInstance = confetti.create(confettiCanvas, {
                 resize: false,
-                useWorker: true
+                useWorker: false
             });
         }
 
@@ -753,13 +1276,19 @@
 
         /* ---------- YES CLICK ---------- */
         yesBtn.addEventListener("click", () => {
-            zone.style.display = "none";
-            hint.style.display = "none";     // HIDE THE HINT
-            result.style.display = "block";
-            artImg.src = "images/4.jpeg";
-            resizeConfettiCanvas();
-            fullScreenConfetti();
-        });
+        zone.style.display = "none";
+        hint.style.display = "none";     // HIDE THE HINT
+        result.style.display = "block";
+        artImg.src = "images/4.jpeg";
+        if (artOverlay) artOverlay.textContent = "hehe";
+
+        if (giftCard) giftCard.hidden = true;
+        if (fireworksGif) fireworksGif.hidden = false;
+        if (giftBtn) giftBtn.hidden = false;
+
+        resizeConfettiCanvas();
+        fullScreenConfetti();
+    });
     </script>
 </body>
 
